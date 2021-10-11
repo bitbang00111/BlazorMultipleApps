@@ -8,7 +8,8 @@ using System.Linq;
 namespace BlazorMultipleApps.Server.Controllers
 {
     [ApiController]
-    [Route("FirstApp/[controller]")]
+    //[Route("FirstApp/[controller]")]
+    [Route("[controller]")]
     [Route("SecondApp/[controller]")]
     public class WeatherForecastController : ControllerBase
     {

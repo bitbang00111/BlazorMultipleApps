@@ -44,30 +44,17 @@ namespace BlazorMultipleApps.Server
 
             app.UseHttpsRedirection();
 
-            app.MapWhen(ctx => ctx.Request.Path.StartsWithSegments("/FirstApp"), first =>
+            app.UseBlazorFrameworkFiles(); //app.UseBlazorFrameworkFiles("/FirstApp");
+            //app.UseBlazorFrameworkFiles("/SecondApp");
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
             {
-                first.UseBlazorFrameworkFiles("/FirstApp");
-                first.UseStaticFiles();
-
-                first.UseRouting();
-                first.UseEndpoints(endpoints =>
-                {
-                    endpoints.MapControllers();
-                    endpoints.MapFallbackToFile("FirstApp/{*path:nonfile}", "FirstApp/index.html");
-                });
-            });
-
-            app.MapWhen(ctx => ctx.Request.Path.StartsWithSegments("/SecondApp"), second =>
-            {
-                second.UseBlazorFrameworkFiles("/SecondApp");
-                second.UseStaticFiles();
-
-                second.UseRouting();
-                second.UseEndpoints(endpoints =>
-                {
-                    endpoints.MapControllers();
-                    endpoints.MapFallbackToFile("SecondApp/{*path:nonfile}", "SecondApp/index.html");
-                });
+                endpoints.MapControllers();
+                endpoints.MapFallbackToFile("index.html");//endpoints.MapFallbackToFile("/FirstApp/{*path:nonfile}", "FirstApp/index.html");
+                //endpoints.MapFallbackToFile("/SecondApp/{*path:nonfile}", "SecondApp/index.html");
             });
         }
     }
